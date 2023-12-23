@@ -75,7 +75,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "tamogachi-project"
+name = "terminal-gachi"
 version = "0.1.0"
 dependencies = [
  "serde",

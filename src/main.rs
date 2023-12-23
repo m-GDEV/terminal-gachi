@@ -1,5 +1,5 @@
 // System imports
-use std::fs;
+use std::{env, fs};
 
 // Serde imports
 use serde::{Deserialize, Serialize};
@@ -62,15 +62,30 @@ fn write_tamogachi(obj: Tamogachi, path: &str) {
     fs::write(path, json).expect("Cannot save file!");
 }
 
+fn usage() {
+    println!(
+        "
+        usage: ./tamogachi-pro  
+        "
+    );
+}
+
 fn main() {
-    let file_path = "./test-data.json";
+    let args: Vec<String> = env::args().collect();
+    for i in args {
+        println!("{}", i);
+    }
 
-    // Load data
-    let mut obj: Tamogachi = read_tamogachi(file_path);
+    usage();
 
-    // Modify data
-    obj.name = String::from("Musa");
-
-    // Save data
-    write_tamogachi(obj, file_path)
+    // let file_path = "./test-data.json";
+    //
+    // // Load data
+    // let mut obj: Tamogachi = read_tamogachi(file_path);
+    //
+    // // Modify data
+    // obj.name = String::from("Musa");
+    //
+    // // Save data
+    // write_tamogachi(obj, file_path)
 }
