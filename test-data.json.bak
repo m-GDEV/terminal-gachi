@@ -1,0 +1,20 @@
+{
+    "name": "Yoshi",
+    "age": 23,
+    "level": 0,
+    "owner": "Mario",
+    "personality": "energetic",
+    "colour": "green",
+    "breed": "dinosaur",
+    "health": "great shape",
+    "hunger": 0,
+    "sleeping": false,
+    "sleep_left": 0,
+    "energy": 0,
+    "commands_run_per_day": [
+        {
+            "day": "19122023",
+            "commands_run": 0
+        }
+    ]
+}
