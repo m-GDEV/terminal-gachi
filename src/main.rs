@@ -1,14 +1,16 @@
 // System imports
-use std::{env, fs};
+use chrono::{Datelike, Local};
+use std::{env, fs, process};
 
-// Serde imports
+// Other imports
+use colored::Colorize;
 use serde::{Deserialize, Serialize};
 
 // Struct defs
 #[derive(Serialize, Deserialize, Debug)]
 struct Tamogachi {
     name: String,
-    age: i32,
+    birth: i32,
     level: i32,
     owner: String,
     personality: String,
@@ -62,21 +64,118 @@ fn write_tamogachi(obj: Tamogachi, path: &str) {
     fs::write(path, json).expect("Cannot save file!");
 }
 
-fn usage() {
+fn usage(program_name: &String) {
     println!(
         "
-        usage: ./tamogachi-pro  
+        USAGE:
+        \t{program_name} [OPTIONS]
+        OPTIONS:
+        \t--change-name
+        \t--increment-age
+        \t--toggle-sleep
         "
     );
 }
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    for i in args {
-        println!("{}", i);
+fn return_colored_text(color: &str, text: &String) -> colored::ColoredString {
+    match color {
+        "red" => return text.red(),
+        "green" => return text.green(),
+        _ => return text.white(),
+    }
+}
+
+fn return_emoji_from_breed(breed: &str) -> &str {
+    match breed {
+        "dinosaur" => return &"🦖",
+        _ => return breed,
+    }
+}
+
+fn print_statusline(obj: &mut Tamogachi) {
+    let mut sleeping_status: &str = "";
+    if obj.sleeping == true {
+        sleeping_status = "😴";
     }
 
-    usage();
+    let now = Local::now();
+    let formatted_date = format!("{}{}{}", now.day(), now.month(), now.year());
+    let mut found_date = false;
+    // initializing this at 1 means we don't have to change it
+    // if we didn't find the date
+    let mut commands_run_today = 1;
+    // println!("{} {} {}", now.day(), now.month(), now.year());
+
+    for i in &mut obj.commands_run_per_day {
+        // println!("{:?}", i);
+        if i.day == formatted_date {
+            i.commands_run += 1;
+            commands_run_today = i.commands_run;
+            found_date = true;
+            break;
+        }
+    }
+
+    if !found_date {
+        obj.commands_run_per_day.push(CommandsPerDay {
+            day: formatted_date,
+            commands_run: 1,
+        })
+    }
+
+    let age = now.year() - obj.birth;
+
+    println!(
+        // "Yoshi (23) is a LVL 0 dinosaur, energetic, and is owned by Mario\t0",
+        "{}{} {} ({}) {} {}, {}{} {}\t\t⚡ {}",
+        return_emoji_from_breed(&obj.breed),
+        sleeping_status,
+        return_colored_text(&obj.colour, &obj.name).bold(),
+        age.to_string().truecolor(173, 173, 173).bold(),
+        "is".truecolor(138, 43, 226).bold(),
+        format!("LVL {}", obj.level.to_string()).yellow().bold(),
+        obj.personality.truecolor(248, 131, 121).bold(),
+        ", and owned by".truecolor(138, 43, 226).bold(),
+        obj.owner.truecolor(65, 105, 225).bold(),
+        commands_run_today
+            .to_string()
+            .truecolor(255, 0, 0)
+            .bold()
+            .italic()
+    );
+
+    // println!("{:?}", obj.commands_run_per_day[0].day);
+    // 🦖 Musa (23) 🎉, Mario's energetic dinosaur. Green, great shape 💪, no hunger 🍔, not sleeping 😴, 0 energy ⚡. Ran 0 commands on 19/12/2023 📅.
+}
+
+fn main() {
+    let argv: Vec<String> = env::args().collect();
+    let argc = &argv.len();
+
+    // usage(&argv[0]);
+
+    // println!("{}", &argv.len());
+
+    let file_path = "./test-data.json";
+
+    // Load data
+    let mut obj: Tamogachi = read_tamogachi(file_path);
+
+    if argc > &2 {
+        eprintln!("You can only run the program with one option!");
+        process::exit(1);
+    }
+
+    if argc == &1 {
+        // print status line
+        print_statusline(&mut obj);
+
+        // println!("{:?}", obj);
+    }
+    // argc must equal 2, argc can't be less than one
+    else {
+        // invoke function that command line argument is
+    }
 
     // let file_path = "./test-data.json";
     //
@@ -87,5 +186,5 @@ fn main() {
     // obj.name = String::from("Musa");
     //
     // // Save data
-    // write_tamogachi(obj, file_path)
+    write_tamogachi(obj, file_path)
 }
