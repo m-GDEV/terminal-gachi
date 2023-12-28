@@ -26,7 +26,7 @@ Required Features:
 
 -   [x] Implement [se/de]serialization
 -   [x] Parse command line options
--   [ ] Separate all functions into modules
+-   [x] Separate all functions into modules
 -   [ ] Create new files and write functions for the tamogachi modifiers
 -   [ ] Implement dynamic logic (leveling up, sleep state, etc)
 -   [ ] Figure out if you want to use health and energy
