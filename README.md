@@ -25,7 +25,9 @@ Required Features:
 ## Steps/Order to complete project:
 
 -   [x] Implement [se/de]serialization
--   [ ] Parse command line options
+-   [x] Parse command line options
 -   [ ] Separate all functions into modules
 -   [ ] Create new files and write functions for the tamogachi modifiers
+-   [ ] Implement dynamic logic (leveling up, sleep state, etc)
+-   [ ] Figure out if you want to use health and energy
 -   [ ] Test with starship

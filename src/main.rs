@@ -1,6 +1,6 @@
 // System imports
 use chrono::{Datelike, Local};
-use std::{env, fs, process};
+use std::{env, fs, io, process};
 
 // Other imports
 use colored::Colorize;
@@ -65,14 +65,15 @@ fn write_tamogachi(obj: Tamogachi, path: &str) {
 }
 
 fn usage(program_name: &String) {
-    println!(
+    eprintln!(
         "
-        USAGE:
-        \t{program_name} [OPTIONS]
-        OPTIONS:
-        \t--change-name
-        \t--increment-age
-        \t--toggle-sleep
+USAGE:
+\t{program_name} [OPTIONS]
+OPTIONS:
+\t-h | -help
+\t-c | --create-tamogachi
+\t-C | --change-name
+\t-s | --switch-active-tamogachi
         "
     );
 }
@@ -148,6 +149,35 @@ fn print_statusline(obj: &mut Tamogachi) {
     // 🦖 Musa (23) 🎉, Mario's energetic dinosaur. Green, great shape 💪, no hunger 🍔, not sleeping 😴, 0 energy ⚡. Ran 0 commands on 19/12/2023 📅.
 }
 
+fn change_name(obj: &mut Tamogachi) {
+    let mut new_name = String::new();
+    io::stdin()
+        .read_line(&mut new_name)
+        .expect("Cannot get user input!");
+    obj.name = new_name;
+}
+
+fn create_tamogachi() {
+    // make sure this one's name is not the same as
+    // the current tamogachi or of other tamogachis already made
+    // get name, age, owner, colour, breed from user
+    // maybe not colour or breed since those depend on
+    // match statements
+    return ();
+}
+
+fn change_current_tamogachi() {
+    // folder/file structure:
+    // ~/.config/terminal-gachi.json || current tamogachi
+    // ~/.config/Yoshi.json || Yoshi is a tamogachi not in use right now
+
+    // so first we need the current tamogachi and then name of the
+    // tamogachi to switch to
+    // then move terminal-gachi.json to [current-tamogachi-name].json
+    // and move [new-tamogachi-name].json to terminal-gachi.json
+    return ();
+}
+
 fn main() {
     let argv: Vec<String> = env::args().collect();
     let argc = &argv.len();
@@ -161,30 +191,38 @@ fn main() {
     // Load data
     let mut obj: Tamogachi = read_tamogachi(file_path);
 
-    if argc > &2 {
-        eprintln!("You can only run the program with one option!");
-        process::exit(1);
-    }
+    // // Modify data
+    // obj.name = String::from("Musa");
 
+    // 3 Run conditions
+
+    // print status line
     if argc == &1 {
-        // print status line
         print_statusline(&mut obj);
 
         // println!("{:?}", obj);
-    }
-    // argc must equal 2, argc can't be less than one
-    else {
+
         // invoke function that command line argument is
+    } else if argc == &2 {
+        if argv[1] == "-h" || argv[1] == "--help" {
+            usage(&argv[0]);
+        } else if argv[1] == "-c" || argv[1] == "--create-tamogachi" {
+            // change nmae function
+        } else if argv[1] == "-C" || argv[1] == "--change-name" {
+            // change nmae function
+        } else if argv[1] == "-s" || argv[1] == "--change-active-tamogachi" {
+            // change nmae function
+        } else {
+            eprintln!("Invalid options provided!");
+            usage(&argv[0]);
+            process::exit(1);
+        }
+    } else {
+        eprintln!("You can only run the program with one option!");
+        usage(&argv[0]);
+        process::exit(1);
     }
 
-    // let file_path = "./test-data.json";
-    //
-    // // Load data
-    // let mut obj: Tamogachi = read_tamogachi(file_path);
-    //
-    // // Modify data
-    // obj.name = String::from("Musa");
-    //
     // // Save data
     write_tamogachi(obj, file_path)
 }
