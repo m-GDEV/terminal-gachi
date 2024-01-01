@@ -1,1 +1,21 @@
-{"name":"Yoshi","birth":2004,"level":0,"owner":"Mario","personality":"energetic","colour":"green","breed":"dinosaur","health":"great shape","hunger":0,"sleeping":false,"sleep_left":0,"energy":0,"commands_run_per_day":[{"day":"19122023","commands_run":0},{"day":"26122023","commands_run":3},{"day":"27122023","commands_run":34},{"day":"28122023","commands_run":2}]}
+{
+    "name": "Yoshi",
+    "birth": 2004,
+    "level": 0,
+    "owner": "Mario",
+    "personality": "energetic",
+    "colour": "green",
+    "breed": "dinosaur",
+    "health": "great shape",
+    "hunger": 0,
+    "sleeping": false,
+    "sleep_left": 0,
+    "energy": 0,
+    "commands_run_per_day": {
+        "19122023": 0,
+        "26122023": 3,
+        "27122023": 34,
+        "28122023": 27
+    }
+}
+

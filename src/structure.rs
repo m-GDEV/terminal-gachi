@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::fs;
+use std::{collections::HashMap, fs};
 
 // Struct defs
 #[derive(Serialize, Deserialize, Debug)]
@@ -16,7 +16,7 @@ pub struct Tamogachi {
     pub sleeping: bool,
     pub sleep_left: i32,
     pub energy: i32,
-    pub commands_run_per_day: Vec<CommandsPerDay>,
+    pub commands_run_per_day: HashMap<String, i64>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

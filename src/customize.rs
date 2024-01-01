@@ -1,17 +1,27 @@
-use std::io;
+use std::io::{self, Write};
 
 // Other imports
 use crate::structure::Tamogachi;
 
-fn change_name(obj: &mut Tamogachi) {
+pub fn change_name(obj: &mut Tamogachi) {
+    // Get new name, flush stdout after print
+    // so Enter... is printed properly
     let mut new_name = String::new();
+    print!("Current Name: {}\nEnter New Name: ", obj.name);
+    io::stdout().flush().unwrap();
+
     io::stdin()
         .read_line(&mut new_name)
         .expect("Cannot get user input!");
+
+    // Removes trailing \n that comes from input
+    new_name = new_name.trim_end_matches('\n').to_string();
+
+    println!("Name successfully changed to {}!", new_name);
     obj.name = new_name;
 }
 
-fn create_tamogachi() {
+pub fn create_tamogachi() {
     // make sure this one's name is not the same as
     // the current tamogachi or of other tamogachis already made
     // get name, age, owner, colour, breed from user
