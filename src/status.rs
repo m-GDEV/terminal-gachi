@@ -4,7 +4,7 @@ use colored::Colorize;
 use std::collections::hash_map::Entry;
 
 // Local imports
-use crate::structure::{CommandsPerDay, Tamogachi};
+use crate::structure::Tamogachi;
 
 fn return_colored_text(color: &str, text: &String) -> colored::ColoredString {
     // Only allowed colors are the default colors in the 'colored' crate
@@ -27,7 +27,7 @@ fn return_emoji_from_breed(breed: &str) -> &str {
         "cat" => return &"🐱",
         "dog" => return &"🐶",
         "bunny" => return &"🐰",
-        "dinosaur" => return &"🦕",
+        "dinosaur" => return &"🦖",
         "dragon" => return &"🐉",
         "unicorn" => return &"🦄",
         "penguin" => return &"🐧",
@@ -80,7 +80,4 @@ pub fn statusline(obj: &mut Tamogachi, modify: bool, print: bool) {
                 .italic()
         );
     }
-
-    // println!("{:?}", obj.commands_run_per_day[0].day);
-    // 🦖 Musa (23) 🎉, Mario's energetic dinosaur. Green, great shape 💪, no hunger 🍔, not sleeping 😴, 0 energy ⚡. Ran 0 commands on 19/12/2023 📅.
 }

@@ -1,9 +1,9 @@
 // Modules made for this project
 pub mod customize;
+pub mod dynamic;
 pub mod status;
 pub mod structure;
 
-use std::path::PathBuf;
 // System imports
 use std::{env, process};
 

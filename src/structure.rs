@@ -7,6 +7,7 @@ pub struct Tamogachi {
     pub name: String,
     pub birth: i32,
     pub level: i32,
+    pub commands_to_level_up: u64,
     pub owner: String,
     pub personality: String,
     pub colour: String,
@@ -17,12 +18,6 @@ pub struct Tamogachi {
     pub sleep_left: i32,
     pub energy: i32,
     pub commands_run_per_day: HashMap<String, i64>,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct CommandsPerDay {
-    pub day: String,
-    pub commands_run: i32,
 }
 
 pub fn read_tamogachi(path: &str) -> Tamogachi {
