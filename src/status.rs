@@ -4,7 +4,7 @@ use colored::Colorize;
 use std::collections::hash_map::Entry;
 
 // Local imports
-use crate::structure::Tamogachi;
+use crate::{dynamic::level_up, structure::Tamogachi};
 
 fn return_colored_text(color: &str, text: &String) -> colored::ColoredString {
     // Only allowed colors are the default colors in the 'colored' crate
@@ -47,17 +47,28 @@ pub fn statusline(obj: &mut Tamogachi, modify: bool, print: bool) {
     let now = Local::now();
     let age = now.year() - obj.birth;
     let formatted_date = format!("{}{}{}", now.day(), now.month(), now.year());
+
     let mut commands_run_today = if modify == true { 1 } else { 0 };
 
     // Cool code provided by Phind, I don't fully get how it works
+    // commands_run_today plays two roles. initially it will be the values
+    // to increment the commands_run_per_day key/value pair with
+    // after that, if we want to modify it will become the
+    // number of commands_run_today
+    // This code block is a bit confusing for me right now
+    // but its super concise so i'm going to keep it
     match obj.commands_run_per_day.entry(formatted_date) {
         Entry::Occupied(mut entry) => {
-            *entry.get_mut() += 1;
+            *entry.get_mut() += commands_run_today;
             commands_run_today = *entry.get_mut();
         }
         Entry::Vacant(entry) => {
             entry.insert(commands_run_today);
         }
+    }
+
+    if modify {
+        level_up(obj);
     }
 
     if print {

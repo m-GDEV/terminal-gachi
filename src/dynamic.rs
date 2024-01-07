@@ -15,7 +15,7 @@ fn return_commands_to_level_up(next_level: &i32) -> u64 {
     return result.round() as u64;
 }
 
-fn level_up(obj: &mut Tamogachi) {
+pub fn level_up(obj: &mut Tamogachi) {
     // if commands_to_level_up == 1
     // increment level,
     // calculate new commands_to_level_up using a formula
